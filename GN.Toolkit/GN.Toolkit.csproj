@@ -4,6 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>Gustav Nilsson</Authors>
+    <Company>Gustav Nilsson</Company>
+    <Description>Tools for development</Description>
+    <Version>$(VersionPrefix)</Version>
+    <PackageId>GNilsson.Toolkit</PackageId>
   </PropertyGroup>
 
 </Project>

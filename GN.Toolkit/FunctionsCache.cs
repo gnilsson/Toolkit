@@ -4,14 +4,21 @@ namespace GN.Toolkit;
 
 public static class FunctionsCache
 {
+    public const string EnvironmentVariableCacheTracking = "FunctionsCacheTracking";
+
     static FunctionsCache()
     {
-        var directoryDictionary = new Dictionary<Guid, Directory>();
-        AddToDirectoryDictionary = Operations.AddTo(directoryDictionary);
-        UpdateDirectoryDictionary = Operations.UpdateTo(directoryDictionary);
-        GetDirectory = Operations.GetDirectory(directoryDictionary);
-        var readOnly = new ReadOnlyDictionary<Guid, Directory>(directoryDictionary);
-        GetDirectoryDictionary = () => readOnly;
+        var tracking = Environment.GetEnvironmentVariable(EnvironmentVariableCacheTracking);
+
+        if (tracking is not null && bool.TryParse(tracking, out var toggle) && toggle)
+        {
+            var directoryDictionary = new Dictionary<Guid, Directory>();
+            AddToDirectoryDictionary = Operations.AddTo(directoryDictionary);
+            UpdateDirectoryDictionary = Operations.UpdateTo(directoryDictionary);
+            GetDirectory = Operations.GetDirectory(directoryDictionary);
+            var readOnly = new ReadOnlyDictionary<Guid, Directory>(directoryDictionary);
+            GetDirectoryDictionary = () => readOnly;
+        }
     }
 
     internal static Func<ReadOnlyDictionary<Guid, Directory>> GetDirectoryDictionary { get; } = default!;

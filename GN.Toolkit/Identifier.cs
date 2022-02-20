@@ -50,4 +50,6 @@ public struct Identifier
 
     public static bool operator ==(Identifier id1, Identifier id2) => id1._guidValue.Equals(id2._guidValue);
     public static bool operator !=(Identifier id1, Identifier id2) => !id1._guidValue.Equals(id2._guidValue);
+    public static bool operator ==(Guid id1, Identifier id2) => id1.Equals(id2._guidValue);
+    public static bool operator !=(Guid id1, Identifier id2) => !id1.Equals(id2._guidValue);
 }

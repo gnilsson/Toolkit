@@ -46,6 +46,7 @@ public struct Identifier
     public static implicit operator Identifier(Guid guidValue) => new(guidValue);
     public static implicit operator Identifier(string base64Value) => new(base64Value);
     public static implicit operator string(Identifier identifier) => identifier._base64Value;
+    public static implicit operator Guid(Identifier identifier) => identifier._guidValue;
 
     public static bool operator ==(Identifier id1, Identifier id2) => id1._guidValue.Equals(id2._guidValue);
     public static bool operator !=(Identifier id1, Identifier id2) => !id1._guidValue.Equals(id2._guidValue);

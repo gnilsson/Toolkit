@@ -15,6 +15,11 @@ public struct Identifier
 
     public Identifier(string base64Value)
     {
+        if (Guid.TryParse(base64Value, out _guidValue))
+        {
+            _base64Value = ToIdentifierString(_guidValue);
+            return;
+        }
         _guidValue = ToIdentifierGuid(base64Value);
         _base64Value = base64Value;
     }

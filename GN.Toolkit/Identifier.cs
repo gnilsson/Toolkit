@@ -1,6 +1,6 @@
 ﻿namespace GN.Toolkit;
 
-public struct Identifier
+public readonly struct Identifier
 {
     public static readonly Identifier Empty = default;
 
@@ -20,6 +20,7 @@ public struct Identifier
             _base64Value = ToIdentifierString(_guidValue);
             return;
         }
+
         _guidValue = ToIdentifierGuid(base64Value);
         _base64Value = base64Value;
     }

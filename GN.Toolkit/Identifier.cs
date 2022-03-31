@@ -1,8 +1,19 @@
-﻿namespace GN.Toolkit;
+﻿using System.Buffers.Text;
+using System.Runtime.InteropServices;
+
+namespace GN.Toolkit;
 
 public readonly struct Identifier
 {
     public static readonly Identifier Empty = default;
+
+    private const char EqualsChar = '=';
+    private const char Hyphen = '-';
+    private const char Underscore = '_';
+    private const char Slash = '/';
+    private const char Plus = '+';
+    private const byte SlashByte = (byte)'/';
+    private const byte PlusByte = (byte)'+';
 
     private readonly Guid _guidValue;
     private readonly string _base64Value;
@@ -27,22 +38,51 @@ public readonly struct Identifier
 
     public static Identifier New() => new(Guid.NewGuid());
 
-    private static string ToIdentifierString(Guid guid)
+    private static string ToIdentifierString(Guid id)
     {
-        var base64Guid = Convert.ToBase64String(guid.ToByteArray());
+        Span<byte> idBytes = stackalloc byte[16];
+        Span<byte> base64Bytes = stackalloc byte[24];
 
-        base64Guid = base64Guid.Replace('+', '-').Replace('/', '_');
+        MemoryMarshal.TryWrite(idBytes, ref id);
+        Base64.EncodeToUtf8(idBytes, base64Bytes, out _, out _);
 
-        return base64Guid[..22];
+        Span<char> finalChars = stackalloc char[22];
+
+        for (int i = 0; i < 22; i++)
+        {
+            finalChars[i] = base64Bytes[i] switch
+            {
+                SlashByte => Hyphen,
+                PlusByte => Underscore,
+                _ => (char)base64Bytes[i],
+            };
+        }
+
+        return new string(finalChars);
     }
 
-    private static Guid ToIdentifierGuid(string str)
+    private static Guid ToIdentifierGuid(ReadOnlySpan<char> id)
     {
-        str = str.Replace('_', '/').Replace('-', '+');
+        Span<char> base64Chars = stackalloc char[24];
 
-        var byteArray = Convert.FromBase64String(str + "==");
+        for (int i = 0; i < 22; i++)
+        {
+            base64Chars[i] = id[i] switch
+            {
+                Hyphen => Slash,
+                Underscore => Plus,
+                _ => id[i]
+            };
+        }
 
-        return new Guid(byteArray);
+        base64Chars[22] = EqualsChar;
+        base64Chars[23] = EqualsChar;
+
+        Span<byte> idBytes = stackalloc byte[16];
+
+        Convert.TryFromBase64Chars(base64Chars, idBytes, out _);
+
+        return new Guid(idBytes);
     }
 
     public override bool Equals(object? obj) => base.Equals(obj);

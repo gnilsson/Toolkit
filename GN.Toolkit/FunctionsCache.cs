@@ -97,7 +97,7 @@ public static class FunctionsCache
         internal bool Contains(Type type) => _values.Contains(type);
     }
 
-    public static Func<TKey, UIn, TOut> Memorize<TKey, UIn, TOut>(Func<TKey, UIn, TOut> func, Guid directoryKey) where TKey : notnull
+    public static Func<TKey, UIn, TOut> Memoise<TKey, UIn, TOut>(Func<TKey, UIn, TOut> func, Guid directoryKey) where TKey : notnull
     {
         var responsibility = new Responsibility<TKey, TOut>(directoryKey);
 
@@ -115,7 +115,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, CancellationToken, TOut> Memorize<TKey, TOut>(Func<TKey, CancellationToken, TOut> func, Guid directoryKey) where TKey : notnull
+    public static Func<TKey, CancellationToken, TOut> Memoise<TKey, TOut>(Func<TKey, CancellationToken, TOut> func, Guid directoryKey) where TKey : notnull
     {
         var responsibility = new Responsibility<TKey, TOut>(directoryKey);
 
@@ -136,7 +136,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, TOut> Memorize<TKey, TOut>(Func<TKey, TOut> func, Guid directoryKey) where TKey : notnull
+    public static Func<TKey, TOut> Memoise<TKey, TOut>(Func<TKey, TOut> func, Guid directoryKey) where TKey : notnull
     {
         var responsibility = new Responsibility<TKey, TOut>(directoryKey);
 
@@ -154,7 +154,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, UIn, TOut> Memorize<TKey, UIn, TOut>(Func<TKey, UIn, TOut> func) where TKey : notnull
+    public static Func<TKey, UIn, TOut> Memoise<TKey, UIn, TOut>(Func<TKey, UIn, TOut> func) where TKey : notnull
     {
         var cache = new Dictionary<TKey, TOut>();
 
@@ -166,7 +166,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, TOut> Memorize<TKey, TOut>(Func<TKey, TOut> func) where TKey : notnull
+    public static Func<TKey, TOut> Memoise<TKey, TOut>(Func<TKey, TOut> func) where TKey : notnull
     {
         var cache = new Dictionary<TKey, TOut>();
 
@@ -178,7 +178,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, CancellationToken, TResult> AsyncMemorize<TKey, TResult>(Func<TKey, CancellationToken, TResult> func) where TKey : notnull
+    public static Func<TKey, CancellationToken, TResult> AsyncMemoise<TKey, TResult>(Func<TKey, CancellationToken, TResult> func) where TKey : notnull
     {
         var cache = new Dictionary<TKey, TResult>();
 
@@ -193,7 +193,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, TParam, CancellationToken, TResult> AsyncMemorize<TKey, TParam, TResult>(Func<TKey, TParam, CancellationToken, TResult> func) where TKey : notnull
+    public static Func<TKey, TParam, CancellationToken, TResult> AsyncMemoise<TKey, TParam, TResult>(Func<TKey, TParam, CancellationToken, TResult> func) where TKey : notnull
     {
         var cache = new Dictionary<TKey, TResult>();
 

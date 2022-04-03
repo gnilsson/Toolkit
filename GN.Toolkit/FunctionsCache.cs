@@ -30,7 +30,7 @@ public static class FunctionsCache
     {
         internal delegate bool Try<TU>(TU input, out TU output);
 
-        internal static Try<Dictionary<TKey, TOut>> InvalidateOn<TKey, TOut>(Directory cacheDirectory) where TKey : notnull
+        internal static Try<Dictionary<TKey, TOut>> TryClear<TKey, TOut>(Directory cacheDirectory) where TKey : notnull
         {
             return (Dictionary<TKey, TOut> input, out Dictionary<TKey, TOut> output) =>
             {
@@ -62,11 +62,13 @@ public static class FunctionsCache
         public Responsibility(Guid directoryKey)
         {
             var cacheDirectory = GetDirectory(directoryKey);
-            TryClear = Operations.InvalidateOn<TIn, TOut>(cacheDirectory);
+
+            TryClearDirectory = Operations.TryClear<TIn, TOut>(cacheDirectory);
+
             AddToDirectory = Operations.AddTo(cacheDirectory);
         }
 
-        internal Operations.Try<Dictionary<TIn, TOut>> TryClear { get; }
+        internal Operations.Try<Dictionary<TIn, TOut>> TryClearDirectory { get; }
 
         internal Action<Type> AddToDirectory { get; }
     }
@@ -95,7 +97,7 @@ public static class FunctionsCache
         internal bool Contains(Type type) => _values.Contains(type);
     }
 
-    public static Func<TKey, UIn, TOut> Memoize<TKey, UIn, TOut>(Func<TKey, UIn, TOut> func, Guid directoryKey) where TKey : notnull
+    public static Func<TKey, UIn, TOut> Memorize<TKey, UIn, TOut>(Func<TKey, UIn, TOut> func, Guid directoryKey) where TKey : notnull
     {
         var responsibility = new Responsibility<TKey, TOut>(directoryKey);
 
@@ -103,7 +105,7 @@ public static class FunctionsCache
 
         return (inputT, inputU) =>
         {
-            if (responsibility.TryClear(cache, out cache))
+            if (responsibility.TryClearDirectory(cache, out cache))
             {
                 responsibility.AddToDirectory(typeof(TKey));
             }
@@ -113,7 +115,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, CancellationToken, TOut> Memoize<TKey, TOut>(Func<TKey, CancellationToken, TOut> func, Guid directoryKey) where TKey : notnull
+    public static Func<TKey, CancellationToken, TOut> Memorize<TKey, TOut>(Func<TKey, CancellationToken, TOut> func, Guid directoryKey) where TKey : notnull
     {
         var responsibility = new Responsibility<TKey, TOut>(directoryKey);
 
@@ -123,7 +125,7 @@ public static class FunctionsCache
         {
             lock (responsibility)
             {
-                if (responsibility.TryClear(cache, out cache))
+                if (responsibility.TryClearDirectory(cache, out cache))
                 {
                     responsibility.AddToDirectory(typeof(TKey));
                 }
@@ -134,7 +136,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, TOut> Memoize<TKey, TOut>(Func<TKey, TOut> func, Guid directoryKey) where TKey : notnull
+    public static Func<TKey, TOut> Memorize<TKey, TOut>(Func<TKey, TOut> func, Guid directoryKey) where TKey : notnull
     {
         var responsibility = new Responsibility<TKey, TOut>(directoryKey);
 
@@ -142,7 +144,7 @@ public static class FunctionsCache
 
         return input =>
         {
-            if (responsibility.TryClear(cache, out cache))
+            if (responsibility.TryClearDirectory(cache, out cache))
             {
                 responsibility.AddToDirectory(typeof(TKey));
             }
@@ -152,7 +154,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, UIn, TOut> Memoize<TKey, UIn, TOut>(Func<TKey, UIn, TOut> func) where TKey : notnull
+    public static Func<TKey, UIn, TOut> Memorize<TKey, UIn, TOut>(Func<TKey, UIn, TOut> func) where TKey : notnull
     {
         var cache = new Dictionary<TKey, TOut>();
 
@@ -164,7 +166,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, TOut> Memoize<TKey, TOut>(Func<TKey, TOut> func) where TKey : notnull
+    public static Func<TKey, TOut> Memorize<TKey, TOut>(Func<TKey, TOut> func) where TKey : notnull
     {
         var cache = new Dictionary<TKey, TOut>();
 
@@ -176,7 +178,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, CancellationToken, TResult> AsyncMemoize<TKey, TResult>(Func<TKey, CancellationToken, TResult> func) where TKey : notnull
+    public static Func<TKey, CancellationToken, TResult> AsyncMemorize<TKey, TResult>(Func<TKey, CancellationToken, TResult> func) where TKey : notnull
     {
         var cache = new Dictionary<TKey, TResult>();
 
@@ -191,7 +193,7 @@ public static class FunctionsCache
         };
     }
 
-    public static Func<TKey, TParam, CancellationToken, TResult> AsyncMemoize<TKey, TParam, TResult>(Func<TKey, TParam, CancellationToken, TResult> func) where TKey : notnull
+    public static Func<TKey, TParam, CancellationToken, TResult> AsyncMemorize<TKey, TParam, TResult>(Func<TKey, TParam, CancellationToken, TResult> func) where TKey : notnull
     {
         var cache = new Dictionary<TKey, TResult>();
 

@@ -10,10 +10,10 @@ public readonly struct Identifier
     private const char EqualsChar = '=';
     private const char Hyphen = '-';
     private const char Underscore = '_';
-    private const char Slash = '/';
     private const char Plus = '+';
-    private const byte SlashByte = (byte)'/';
-    private const byte PlusByte = (byte)'+';
+    private const char Slash = '/';
+    private const byte PlusByte = (byte)Plus;
+    private const byte SlashByte = (byte)Slash;
 
     private readonly Guid _guidValue;
     private readonly string _base64Value;

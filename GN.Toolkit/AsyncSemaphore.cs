@@ -17,16 +17,17 @@ public class AsyncSemaphore
         return Disposable.Create(() => _semaphore.Release());
     }
 
-    public async Task<IDisposable> EnterWithCountAsync()
+    public async Task<IDisposable> EnterAndCountAsync()
     {
-        _count++;
+        Interlocked.Increment(ref _count);
 
         await _semaphore.WaitAsync().ConfigureAwait(false);
 
         return Disposable.Create(() =>
         {
             _semaphore.Release();
-            _count--;
+
+            Interlocked.Decrement(ref _count);
         });
     }
 }

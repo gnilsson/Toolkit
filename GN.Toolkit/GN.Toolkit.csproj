@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="NewId" Version="4.0.0-develop.44" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace GN.Toolkit;
+namespace Boolkit;
 
 public static class ConfigureAwaitFalseExtensions
 {

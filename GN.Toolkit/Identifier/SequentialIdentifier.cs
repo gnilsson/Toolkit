@@ -1,8 +1,7 @@
-﻿using GN.Toolkit;
-using MassTransit;
+﻿using MassTransit;
 using System.Runtime.CompilerServices;
 
-namespace ApiAutoFast;
+namespace Boolkit;
 
 public readonly struct SequentialIdentifier :
         IIdentifier,

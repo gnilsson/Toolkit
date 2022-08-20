@@ -1,4 +1,4 @@
-﻿namespace GN.Toolkit;
+﻿namespace Boolkit;
 
 public record ResultUnion<T>
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace GN.Toolkit;
+namespace Boolkit;
 
 public static class FunctionsCache
 {

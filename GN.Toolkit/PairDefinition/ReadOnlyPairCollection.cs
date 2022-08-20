@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace GN.Toolkit.PairDefinition;
+namespace Boolkit;
 
 public class ReadOnlyPairCollection<T1, T2> : ReadOnlyCollection<Pair<T1, T2>>
 {

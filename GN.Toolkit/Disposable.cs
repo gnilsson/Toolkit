@@ -1,4 +1,4 @@
-﻿namespace GN.Toolkit;
+﻿namespace Boolkit;
 
 public class Disposable : IDisposable
 {

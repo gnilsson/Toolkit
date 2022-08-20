@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
-namespace GN.Toolkit;
+namespace Boolkit;
 
 public readonly struct Identifier :
         IIdentifier,

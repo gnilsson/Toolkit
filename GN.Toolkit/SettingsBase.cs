@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace GN.Toolkit;
+namespace Boolkit;
 
 public abstract class SettingsBase<T> where T : SettingsBase<T>
 {

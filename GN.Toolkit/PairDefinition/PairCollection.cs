@@ -1,4 +1,4 @@
-﻿namespace GN.Toolkit.PairDefinition;
+﻿namespace Boolkit;
 
 public class PairCollection<T1, T2> : List<Pair<T1, T2>>
 {
